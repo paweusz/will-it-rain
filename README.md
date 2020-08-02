@@ -1,5 +1,7 @@
 # will-it-rain
 
+Displays current cloud situation based on radar data.
+
 ## Project setup
 ```
 npm install
