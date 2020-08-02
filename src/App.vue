@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <map-view/>
+    <map-view class="app__map-view"/>
   </div>
 </template>
 
@@ -16,4 +16,11 @@ export default {
 </script>
 
 <style>
+.app__map-view {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
 </style>
