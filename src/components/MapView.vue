@@ -4,7 +4,7 @@
       :zoom="zoom"
       :center="center">
       <l-tile-layer :url="mapURL"></l-tile-layer>
-      <l-image-overlay v-if="radarURL" :url="radarURL" :bounds="radarBounds"></l-image-overlay>
+      <l-image-overlay v-if="radarURL" :url="radarURL" :bounds="radarBounds" :opacity="0.5"></l-image-overlay>
     </l-map>
   </div>
 </template>
