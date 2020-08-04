@@ -1,6 +1,7 @@
 import axios from "axios"
 
 const CMAX_DATA_URL = "http://pogodynka.pl/api/radars/v1/list/cmax"
+// <url>/clouds
 
 export default class RadarService {
 
