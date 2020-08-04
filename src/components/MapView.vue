@@ -12,9 +12,11 @@
 <script>
 import { LMap, LTileLayer, LImageOverlay } from "vue2-leaflet";
 import RadarService from "../services/RadarService"
+import moment from "moment"
 
-const FRAMES_DISPLAYED = 6;
-const FRAME_DELAY_SEC = 1;
+const FRAMES_DISPLAYED = 6
+const FRAME_DELAY_SEC = 1
+const DEFAULT_ZOOM = 9
 
 export default {
   name: "MapView",
@@ -27,7 +29,7 @@ export default {
     return {
       mapURL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       radarURL: null,
-      zoom: 9,
+      zoom: DEFAULT_ZOOM,
       center: [50.033333, 22],
       radarBounds: [[56.1865, 11.8129], [48.1334, 25.1576]],
       radarEntries: [],
@@ -37,16 +39,19 @@ export default {
   methods: {
     async initCMaxData() {
       this.radarEntries = await RadarService.fetchRadarEntries()
-      this.radarFrame = 1
+      this.radarFrame = FRAMES_DISPLAYED
     },
     updateRadarURL() {
-      this.radarURL = this.radarEntries[this.radarEntries.length - this.radarFrame].url
+      const radarEntry = this.radarEntries[this.radarEntries.length - this.radarFrame]
+      this.radarURL = radarEntry.url
+      const ts = moment.unix(radarEntry.date)
+      console.log("Radar ts =", ts.format())
     },
     startTimer() {
       setInterval(() => {
-        this.radarFrame++
-        if (this.radarFrame > FRAMES_DISPLAYED) {
-          this.radarFrame = 1
+        this.radarFrame--
+        if (this.radarFrame == 0) {
+          this.radarFrame = FRAMES_DISPLAYED
         }
         this.updateRadarURL()
       }, FRAME_DELAY_SEC * 1000);
