@@ -13,6 +13,9 @@
 import { LMap, LTileLayer, LImageOverlay } from "vue2-leaflet";
 import RadarService from "../services/RadarService"
 
+const FRAMES_DISPLAYED = 6;
+const FRAME_DELAY_SEC = 1;
+
 export default {
   name: "MapView",
   components: {
@@ -27,12 +30,32 @@ export default {
       zoom: 9,
       center: [50.033333, 22],
       radarBounds: [[56.1865, 11.8129], [48.1334, 25.1576]],
+      radarEntries: [],
+      radarFrame: 1
     }    
   },
+  methods: {
+    async initCMaxData() {
+      this.radarEntries = await RadarService.fetchRadarEntries()
+      this.radarFrame = 1
+    },
+    updateRadarURL() {
+      this.radarURL = this.radarEntries[this.radarEntries.length - this.radarFrame].url
+    },
+    startTimer() {
+      setInterval(() => {
+        this.radarFrame++
+        if (this.radarFrame > FRAMES_DISPLAYED) {
+          this.radarFrame = 1
+        }
+        this.updateRadarURL()
+      }, FRAME_DELAY_SEC * 1000);
+    }
+  },
   async mounted() {
-    const radarEntries = await RadarService.fetchRadarEntries()
-    const radarEntry = radarEntries[radarEntries.length - 1]
-    this.radarURL = radarEntry.url
+    await this.initCMaxData()
+    this.updateRadarURL()
+    this.startTimer()
   }
 };
 </script>
