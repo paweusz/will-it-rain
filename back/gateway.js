@@ -1,6 +1,8 @@
-const exp = require('express')
+const express = require('express')
 const axios = require('axios')
-const app = exp()
+
+const app = express()
+app.use(express.static('public'))
 
 const CMAX_DATA_URL = "http://pogodynka.pl/api/radars/v1/list/cmax"
 const URL_PREFIX = "api"
