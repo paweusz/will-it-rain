@@ -1,10 +1,16 @@
 const exp = require('express')
-const ax = require('axios')
+const axios = require('axios')
 const app = exp()
-app.get('/clouds', async (req, res) => {
+
+const CMAX_DATA_URL = "http://pogodynka.pl/api/radars/v1/list/cmax"
+const URL_PREFIX = "api"
+
+app.get(`/${URL_PREFIX}/cmax`, async (req, res) => {
     res.send(
-        await ax.get('http://pogodynka.pl/api/radars/v1/list/cmax')
-        .then(r => r.data.cmax.list)
+        await axios
+          .get(CMAX_DATA_URL)
+          .then(r => r.data.cmax.list)
     )
 })
+
 app.listen(8080)
