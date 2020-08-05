@@ -1,0 +1,1 @@
+web: cd back; node gateway.js
