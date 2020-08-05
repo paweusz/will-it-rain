@@ -8,7 +8,7 @@
 import MapView from './components/MapView.vue'
 
 export default {
-  name: 'Chmurki',
+  name: 'App',
   components: {
     MapView
   }

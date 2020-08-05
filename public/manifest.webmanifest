@@ -1,0 +1,13 @@
+{
+    "name": "Chmurki",
+    "display": "standalone",
+    "theme_color": "#64B5F6",
+    "background_color": "#42A5F5",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "chmurka.svg",
+            "sizes": "144x144"
+        }
+    ]
+}
