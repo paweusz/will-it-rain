@@ -11,7 +11,6 @@
 
 <script>
 import { LMap, LTileLayer, LImageOverlay } from "vue2-leaflet";
-import RadarService from "../services/RadarService"
 import moment from "moment"
 
 const FRAMES_DISPLAYED = 6
@@ -38,7 +37,7 @@ export default {
   },
   methods: {
     async initCMaxData() {
-      this.radarEntries = await RadarService.fetchRadarEntries()
+      this.radarEntries = await this.$axios.get("/cmax").then(result => result.data)
       this.radarFrame = FRAMES_DISPLAYED
     },
     updateRadarURL() {
