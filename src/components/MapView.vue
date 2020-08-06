@@ -1,19 +1,24 @@
 <template>
-  <div>
-    <l-map class="map-view"
+  <div class="map-view">
+    <l-map
       :zoom="zoom"
       :center="center">
       <l-tile-layer :url="mapURL"></l-tile-layer>
       <l-image-overlay v-if="radarURL" :url="radarURL" :bounds="radarBounds" :opacity="0.5"></l-image-overlay>
     </l-map>
+    <div class="map-view__slider-box">
+      <v-slider class="map-view__slider" :vertical="true" :tick-labels="radarHours" :max="radarEntries.length - 1" v-model="radarFrame" 
+        color="#64b5f6" track-color="#2286c3" tick-size="0"></v-slider>
+    </div>
   </div>
 </template>
 
 <script>
 import { LMap, LTileLayer, LImageOverlay } from "vue2-leaflet";
 import moment from "moment"
+import { VSlider } from "vuetify/lib"
 
-const FRAMES_DISPLAYED = 6
+const FRAMES_DISPLAYED = 7
 const FRAME_DELAY_SEC = 1
 const DEFAULT_ZOOM = 9
 
@@ -23,6 +28,7 @@ export default {
     LMap,
     LTileLayer,
     LImageOverlay,
+    VSlider
   },
   data() {
     return {
@@ -32,37 +38,69 @@ export default {
       center: [50.033333, 22],
       radarBounds: [[56.1865, 11.8129], [48.1334, 25.1576]],
       radarEntries: [],
-      radarFrame: 1
+      radarFrame: 0,
+      radarHours: [],
     }    
   },
   methods: {
-    async initCMaxData() {
-      this.radarEntries = await this.$axios.get("/cmax").then(result => result.data)
-      this.radarFrame = FRAMES_DISPLAYED
+    formatHour(ts) {
+      return moment.unix(ts).local().format("HH:mm")
     },
-    updateRadarURL() {
-      const radarEntry = this.radarEntries[this.radarEntries.length - this.radarFrame]
+    async initCMaxData() {
+      this.radarEntries = await this.$axios.get("/cmax").then(result => result.data).then(data => data.slice(-FRAMES_DISPLAYED))
+      this.radarFrame = 0
+      this.radarHours = this.radarEntries.map(entry => this.formatHour(entry.date))
+    },
+    updateRadarImage() {
+      const radarEntry = this.radarEntries[this.radarFrame]
       this.radarURL = radarEntry.url
-      const ts = moment.unix(radarEntry.date)
-      console.log("Radar ts =", ts.format())
+      // console.log("Radar ts =", this.formatHour(radarEntry.date))
     },
     startTimer() {
-      setInterval(() => {
-        this.radarFrame--
-        if (this.radarFrame == 0) {
-          this.radarFrame = FRAMES_DISPLAYED
+      return setInterval(() => {
+        this.radarFrame++
+        if (this.radarFrame == this.radarEntries.length) {
+          this.radarFrame = 0
         }
-        this.updateRadarURL()
+        this.updateRadarImage()
       }, FRAME_DELAY_SEC * 1000);
     }
   },
   async mounted() {
     await this.initCMaxData()
-    this.updateRadarURL()
-    this.startTimer()
+    this.updateRadarImage()
+    this.timerHandle = this.startTimer()
+  },
+  beforeDestroy() {
+    clearInterval(this.timerHandle)
   }
 };
 </script>
 
-<style scoped>
+<style>
+.map-view {
+  position: relative;
+}
+
+.map-view__slider {
+  padding-right: 48px;
+}
+
+.map-view__slider .v-slider__tick-label {
+  color: rgb(255,255,255,0.87);
+}
+
+.map-view__slider-box {
+  position: absolute;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+  right: 8px;
+  bottom: 8px;
+  z-index: 400;
+  width: 120px;
+  height: 208px;
+  display: flex;
+  align-items: center;
+}
+
 </style>

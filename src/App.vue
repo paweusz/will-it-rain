@@ -1,16 +1,20 @@
 <template>
   <div id="app">
-    <map-view class="app__map-view"/>
+    <v-app>
+      <map-view class="app__map-view"/>
+    </v-app>
   </div>
 </template>
 
 <script>
 import MapView from './components/MapView.vue'
+import { VApp } from "vuetify/lib"
 
 export default {
   name: 'App',
   components: {
-    MapView
+    MapView,
+    VApp
   }
 }
 </script>
