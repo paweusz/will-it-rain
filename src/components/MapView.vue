@@ -93,12 +93,12 @@ export default {
 .map-view__slider-box {
   position: absolute;
   border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0,0,0,.3);
   right: 8px;
-  bottom: 8px;
+  bottom: 24px;
   z-index: 400;
-  width: 120px;
-  height: 208px;
+  width: 80px;
+  height: 192px;
   display: flex;
   align-items: center;
 }
