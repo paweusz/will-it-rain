@@ -91,16 +91,20 @@ export default {
 }
 
 .map-view__slider-box {
-  position: absolute;
+  position: fixed;
   border-radius: 8px;
   background-color: rgba(0,0,0,.3);
   right: 8px;
-  bottom: 24px;
+  bottom: 8px;
   z-index: 400;
   width: 80px;
   height: 192px;
   display: flex;
   align-items: center;
+}
+
+.leaflet-right {
+  display: none;
 }
 
 </style>
