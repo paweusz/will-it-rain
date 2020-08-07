@@ -1,7 +1,7 @@
 <template>
     <div class="map-view__slider-box">
       <v-slider class="map-view__slider" :vertical="true" :tick-labels="hours" :max="maxIndex" 
-        v-model="index" @change="sliderChanged()"
+        v-model="index" @mousedown="onMouseDown()" @mouseup="onMouseUp()"
         color="#64b5f6" track-color="#2286c3" tick-size="0"></v-slider>
     </div>
 </template>
@@ -23,6 +23,7 @@ export default {
   data() {
     return {
       index: 0,
+      timerOn: true
     }
   },
   computed: {
@@ -33,23 +34,37 @@ export default {
       return this.timestamps.length > 0 ? this.timestamps.length - 1 : 0
     }
   },
+  watch: {
+    index() {
+      this.sliderChanged()
+    },
+  },
   methods: {
     formatHour(ts) {
-      return moment.unix(ts).local().format("HH:mm")
+      return moment.unix(ts).local().format('HH:mm')
     },
     tick() {
+      if (!this.timerOn) {
+        return
+      }
+
       this.index++
       if (this.index >= this.hours.length) {
         this.index = 0
       }
-      this.sliderChanged()
     },
     startTimer() {
       return setInterval(this.tick, DELAY_SEC * 1000);
     },
     sliderChanged() {
-      this.$emit("change", this.index)
-    }
+      this.$emit('change', this.index)
+    },
+    onMouseDown() {
+      this.timerOn = false
+    },
+    onMouseUp() {
+      this.timerOn = true
+    },
   },
   async mounted() {
     this.timerHandle = this.startTimer()
