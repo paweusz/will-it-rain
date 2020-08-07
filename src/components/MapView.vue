@@ -7,7 +7,8 @@
       <l-image-overlay v-if="radarURL" :url="radarURL" :bounds="radarBounds" :opacity="0.5"></l-image-overlay>
     </l-map>
     <div class="map-view__slider-box">
-      <v-slider class="map-view__slider" :vertical="true" :tick-labels="radarHours" :max="radarEntries.length - 1" v-model="radarFrame" 
+      <v-slider class="map-view__slider" :vertical="true" :tick-labels="radarHours" :max="radarEntries.length - 1" 
+        v-model="radarFrame" @change="updateRadarImage()"
         color="#64b5f6" track-color="#2286c3" tick-size="0"></v-slider>
     </div>
   </div>
