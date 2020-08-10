@@ -1,6 +1,6 @@
 # will-it-rain
 
-Displays current cloud situation based on radar data.
+Displays current precipitation map in Poland based on radar data.
 
 ## Project setup
 ```
