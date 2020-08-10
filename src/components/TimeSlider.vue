@@ -2,7 +2,7 @@
     <div class="map-view__slider-box">
       <v-slider class="map-view__slider" :vertical="true" :tick-labels="hours" :max="maxIndex" 
         v-model="index" @mousedown="onMouseDown()" @mouseup="onMouseUp()"
-        color="#64b5f6" track-color="#2286c3" tick-size="0"></v-slider>
+        color="#64b5f6" track-color="#2286c3" tick-size="0" thumb-color="#9be7ff"></v-slider>
     </div>
 </template>
 
@@ -85,12 +85,9 @@ export default {
 }
 
 .map-view__slider-box {
-  position: fixed;
+  margin-top: 8px;
   border-radius: 8px;
   background-color: rgba(0,0,0,.3);
-  right: 8px;
-  bottom: 8px;
-  z-index: 400;
   width: 80px;
   height: 192px;
   display: flex;
