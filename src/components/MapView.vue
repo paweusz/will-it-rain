@@ -2,28 +2,35 @@
   <div class="map-view">
     <l-map
       :zoom="zoom"
-      :center="center">
+      :center="center"
+      @update:center="onCenterUpdated"
+      @update:zoom="onZoomUpdated">
       <l-tile-layer :url="mapURL"></l-tile-layer>
       <l-image-overlay v-if="radarURL" :url="radarURL" :bounds="radarBounds" :opacity="0.5"></l-image-overlay>
     </l-map>
-    <time-slider :timestamps="radarHours" @change="onSliderChange($event)"></time-slider>
+    <div class='map-view__hold'>
+      <location-button class="map-view__location-button" @located="onLocated($event)"></location-button>
+      <time-slider :timestamps="radarHours" @change="onSliderChange($event)"></time-slider>
+    </div>
   </div>
 </template>
 
 <script>
-import { LMap, LTileLayer, LImageOverlay } from "vue2-leaflet";
-import TimeSlider from "./TimeSlider"
+import { LMap, LTileLayer, LImageOverlay } from 'vue2-leaflet';
+import TimeSlider from './TimeSlider'
+import LocationButton from './LocationButton'
 
 const FRAMES_DISPLAYED = 7
 const DEFAULT_ZOOM = 9
 
 export default {
-  name: "MapView",
+  name: 'MapView',
   components: {
     LMap,
     LTileLayer,
     LImageOverlay,
-    TimeSlider
+    TimeSlider,
+    LocationButton,
   },
   data() {
     return {
@@ -50,6 +57,16 @@ export default {
       this.radarFrame = event
       this.updateRadarImage()
     },
+    onLocated(event) {
+      this.center = [event.latitude, event.longitude]
+      this.zoom = DEFAULT_ZOOM
+    },
+    onCenterUpdated(newCenter) {
+      this.center = newCenter
+    },
+    onZoomUpdated(newZoom) {
+      this.zoom = newZoom
+    },
   },
   async mounted() {
     await this.initRadarData()
@@ -59,11 +76,22 @@ export default {
 </script>
 
 <style>
+
 .map-view {
   position: relative;
 }
 
 .leaflet-right {
   display: none;
+}
+
+.map-view__hold {
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 400;
 }
 </style>
