@@ -22,6 +22,7 @@ import LocationButton from './LocationButton'
 
 const FRAMES_DISPLAYED = 7
 const DEFAULT_ZOOM = 9
+const UPDATE_FREQUENCY = 60
 
 export default {
   name: 'MapView',
@@ -67,11 +68,18 @@ export default {
     onZoomUpdated(newZoom) {
       this.zoom = newZoom
     },
+    startTimer() {
+      return setInterval(this.initRadarData, UPDATE_FREQUENCY * 1000);
+    },
   },
   async mounted() {
     await this.initRadarData()
     this.updateRadarImage()
+    this.timerHandle = this.startTimer()
   },
+  beforeDestroy() {
+    clearInterval(this.timerHandle)
+  }
 };
 </script>
 
