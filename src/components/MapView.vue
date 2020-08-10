@@ -38,7 +38,7 @@ export default {
       mapURL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       radarURL: null,
       zoom: DEFAULT_ZOOM,
-      center: [50.033333, 22],
+      center: [0, 0],
       radarBounds: [[56.1865, 11.8129], [48.1334, 25.1576]],
       radarEntries: [],
       radarFrame: 0,

@@ -25,7 +25,10 @@ export default {
     onLocationError(error) {
       console.log("Error locating", error)
     },
-  }
+  },
+  mounted() {
+    this.locate()
+  },
 }
 </script>
 
