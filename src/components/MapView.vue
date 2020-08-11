@@ -60,7 +60,8 @@ export default {
     },
     onLocated(event) {
       this.center = [event.latitude, event.longitude]
-      this.zoom = DEFAULT_ZOOM
+      const that = this
+      setTimeout(() => that.zoom = DEFAULT_ZOOM, 0)
     },
     onCenterUpdated(newCenter) {
       this.center = newCenter
