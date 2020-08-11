@@ -1,6 +1,6 @@
 {
     "name": "Chmurki",
-    "display": "fullscreen",
+    "display": "standalone",
     "theme_color": "#F5FBFF",
     "background_color": "#2286c3",
     "start_url": "/",
