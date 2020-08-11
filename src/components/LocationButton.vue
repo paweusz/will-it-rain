@@ -1,6 +1,6 @@
 <template>
   <div class="location-button">
-     <v-btn fab color="#9be7ff" @click="locate()">
+     <v-btn fab color="#9be7ff" @click="locate">
       <v-icon size="x-large">mdi-crosshairs-gps</v-icon>
     </v-btn>
     <v-snackbar v-model="showError" :top="true" :vertical="true" color="error">
@@ -60,4 +60,7 @@ export default {
 </script>
 
 <style>
+.location-button .v-btn:not(.v-btn--text):not(.v-btn--outlined):focus:before {
+  opacity: 0;
+}
 </style>
