@@ -3,6 +3,7 @@
     <l-map
       :zoom="zoom"
       :center="center"
+      :options="{zoomControl: false}"
       @update:center="onCenterUpdated"
       @update:zoom="onZoomUpdated">
       <l-tile-layer :url="mapURL"></l-tile-layer>
