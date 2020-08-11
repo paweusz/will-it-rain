@@ -85,7 +85,7 @@ export default {
 }
 
 .map-view__slider-box {
-  margin-top: 8px;
+  margin-top: 12px;
   border-radius: 8px;
   background-color: rgba(0,0,0,.3);
   width: 80px;
