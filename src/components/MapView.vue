@@ -52,7 +52,7 @@ export default {
     },
     updateRadarImage() {
       const radarEntry = this.radarEntries[this.radarFrame]
-      this.radarURL = radarEntry.url
+      this.radarURL = radarEntry.url.replace(/^http:/, 'https:')
     },
     onSliderChange(event) {
       this.radarFrame = event
