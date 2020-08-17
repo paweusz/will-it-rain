@@ -49,11 +49,15 @@ export default {
   methods: {
     async initRadarData() {
       this.radarEntries = await this.$axios.get('/cmax').then(result => result.data).then(data => data.slice(-FRAMES_DISPLAYED))
+      this.radarEntries.map(entry => new Image().src = this.getRadarURL(entry))
       this.radarHours = this.radarEntries.map(entry => entry.date)
     },
     updateRadarImage() {
       const radarEntry = this.radarEntries[this.radarFrame]
-      this.radarURL = radarEntry.url.replace(/^http:/, 'https:')
+      this.radarURL = this.getRadarURL(radarEntry)
+    },
+    getRadarURL(radarEntry) {
+      return radarEntry.url.replace(/^http:/, 'https:')
     },
     onSliderChange(event) {
       this.radarFrame = event
