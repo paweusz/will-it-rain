@@ -1,7 +1,7 @@
 <template>
   <div class="location-button">
-     <v-btn fab depressed color="rgba(0,0,0,.3)" @click="locate">
-      <v-icon color="rgba(255, 255, 255, 0.7)" size="x-large">mdi-crosshairs-gps</v-icon>
+     <v-btn fab color="#64b5f6" @click="locate">
+      <v-icon size="x-large">mdi-crosshairs-gps</v-icon>
     </v-btn>
     <v-snackbar v-model="showError" :top="true" :vertical="true" color="error">
       {{ locationError }}
