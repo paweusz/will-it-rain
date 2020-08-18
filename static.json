@@ -6,7 +6,7 @@
   },
   "proxies": {
     "/api/": {
-      "origin": "https://will-it-rain-api.herokuapp.com/api/"
+      "origin": "https://chmurki-api.herokuapp.com/api/"
     }
   }
 }

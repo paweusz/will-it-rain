@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     async initRadarData() {
-      this.radarEntries = await this.$axios.get('/cmax').then(result => result.data).then(data => data.slice(-FRAMES_DISPLAYED))
+      this.radarEntries = await this.$axios.get('/sri').then(result => result.data).then(data => data.slice(-FRAMES_DISPLAYED))
       this.radarEntries.map(entry => new Image().src = this.getRadarURL(entry))
       this.radarHours = this.radarEntries.map(entry => entry.date)
     },
