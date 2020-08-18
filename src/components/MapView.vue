@@ -4,6 +4,8 @@
       :zoom="zoom"
       :center="center"
       :options="{zoomControl: false, attributionControl: false}"
+      :maxBounds="maxBounds"
+      :minZoom="6"
       @update:center="onCenterUpdated"
       @update:zoom="onZoomUpdated">
       <l-tile-layer :url="mapURL"></l-tile-layer>
@@ -47,6 +49,7 @@ export default {
       zoom: DEFAULT_ZOOM,
       center: [52.2297, 21.0122],
       radarBounds: [[56.1865, 11.8129], [48.1334, 25.1576]],
+      maxBounds: this.radarBounds,
       radarEntries: [],
       radarFrame: 0,
       radarHours: [],
@@ -71,10 +74,21 @@ export default {
       this.updateRadarImage()
     },
     onLocated(event) {
-      this.center = [event.latitude, event.longitude]
-      this.markerLatLng = { lat: event.latitude, lon: event.longitude }
       const that = this
-      setTimeout(() => that.zoom = DEFAULT_ZOOM, 500)
+      this.maxBounds = null
+
+      setTimeout(() => {
+        this.center = [event.latitude, event.longitude]
+        this.markerLatLng = { lat: event.latitude, lon: event.longitude }
+      }, 0)
+      
+      setTimeout(() => {
+        that.zoom = DEFAULT_ZOOM
+      }, 500)
+
+      setTimeout(() => {
+        that.maxBounds = that.radarBounds
+      }, 1000)
     },
     onCenterUpdated(newCenter) {
       this.center = newCenter
