@@ -1,6 +1,7 @@
 # will-it-rain
 
 Displays current precipitation map in Poland based on radar data.
+See it live in Chrome at [heroku](https://chmurki.herokuapp.com/).
 
 ## Project setup
 ```
