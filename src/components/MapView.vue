@@ -10,6 +10,7 @@
       <l-image-overlay v-if="radarURL" :url="radarURL" :bounds="radarBounds" :opacity="0.5"></l-image-overlay>
       <l-control-attribution position="bottomleft"></l-control-attribution>
       <l-control-scale position="topright" :imperial="false" :metric="true"></l-control-scale>
+      <l-marker :lat-lng="markerLatLng"></l-marker>
     </l-map>
     <div class='map-view__hold'>
       <location-button class="map-view__location-button" @located="onLocated($event)"></location-button>
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import { LMap, LTileLayer, LImageOverlay, LControlAttribution, LControlScale } from 'vue2-leaflet';
+import { LMap, LTileLayer, LImageOverlay, LControlAttribution, LControlScale, LMarker } from 'vue2-leaflet';
 import TimeSlider from './TimeSlider'
 import LocationButton from './LocationButton'
 
@@ -37,6 +38,7 @@ export default {
     LocationButton,
     LControlAttribution,
     LControlScale,
+    LMarker,
   },
   data() {
     return {
@@ -48,6 +50,7 @@ export default {
       radarEntries: [],
       radarFrame: 0,
       radarHours: [],
+      markerLatLng: { lat: 52.2297, lon: 21.0122 },
     }    
   },
   methods: {
@@ -69,6 +72,7 @@ export default {
     },
     onLocated(event) {
       this.center = [event.latitude, event.longitude]
+      this.markerLatLng = { lat: event.latitude, lon: event.longitude }
       const that = this
       setTimeout(() => that.zoom = DEFAULT_ZOOM, 500)
     },
