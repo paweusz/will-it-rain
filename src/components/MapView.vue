@@ -3,11 +3,12 @@
     <l-map
       :zoom="zoom"
       :center="center"
-      :options="{zoomControl: false}"
+      :options="{zoomControl: false, attributionControl: false}"
       @update:center="onCenterUpdated"
       @update:zoom="onZoomUpdated">
       <l-tile-layer :url="mapURL"></l-tile-layer>
       <l-image-overlay v-if="radarURL" :url="radarURL" :bounds="radarBounds" :opacity="0.5"></l-image-overlay>
+      <l-control-attribution position="bottomleft"></l-control-attribution>
     </l-map>
     <div class='map-view__hold'>
       <location-button class="map-view__location-button" @located="onLocated($event)"></location-button>
@@ -17,7 +18,7 @@
 </template>
 
 <script>
-import { LMap, LTileLayer, LImageOverlay } from 'vue2-leaflet';
+import { LMap, LTileLayer, LImageOverlay, LControlAttribution } from 'vue2-leaflet';
 import TimeSlider from './TimeSlider'
 import LocationButton from './LocationButton'
 
@@ -33,6 +34,7 @@ export default {
     LImageOverlay,
     TimeSlider,
     LocationButton,
+    LControlAttribution,
   },
   data() {
     return {
@@ -93,10 +95,6 @@ export default {
 
 .map-view {
   position: relative;
-}
-
-.leaflet-right {
-  display: none;
 }
 
 .map-view__hold {
