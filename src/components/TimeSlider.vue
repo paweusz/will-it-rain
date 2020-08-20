@@ -1,19 +1,19 @@
 <template>
     <div class="map-view__slider-box">
-      <v-slider class="map-view__slider" :vertical="true" :tick-labels="hours" :max="maxIndex" 
+      <v-slider class="map-view__slider" :vertical="true" :tick-labels="hours" :max="maxIndex" :disabled="!valid"
         v-model="index" @mousedown="onMouseDown()" @mouseup="onMouseUp()"
         color="#64b5f6" track-color="#b6b6b7" tick-size="0" thumb-color="#9be7ff"></v-slider>
     </div>
 </template>
 
 <script>
-import moment from "moment"
-import { VSlider } from "vuetify/lib"
+import moment from 'moment'
+import { VSlider } from 'vuetify/lib'
 
 const DELAY_SEC = 1
 
 export default {
-  name: "TimeSlider",
+  name: 'TimeSlider',
   components: {
     VSlider
   },
@@ -27,11 +27,15 @@ export default {
     }
   },
   computed: {
+    valid() {
+      return this.timestamps.length != 0
+    },
     hours() {
-      return this.timestamps.map(ts => this.formatHour(ts))
+      const timestamps = this.valid ? this.timestamps : this.calculateTimestamps(moment())
+      return timestamps.map(ts => this.formatHour(ts))
     },
     maxIndex() {
-      return this.timestamps.length > 0 ? this.timestamps.length - 1 : 0
+      return this.hours.length - 1
     }
   },
   watch: {
@@ -44,7 +48,7 @@ export default {
       return moment.unix(ts).local().format('HH:mm')
     },
     tick() {
-      if (!this.timerOn) {
+      if (!this.timerOn || !this.valid) {
         return
       }
 
@@ -65,6 +69,18 @@ export default {
     onMouseUp() {
       this.timerOn = true
     },
+    calculateTimestamps(ts) {
+      const result = []
+
+      const now = moment(ts)
+      const before = now.startOf('minute').subtract(now.minute() % 10, 'minutes')
+      for (let i = 0; i < 7; i++) {
+        result.push(before.unix())
+        before.subtract(10, 'minutes')
+      }
+
+      return result.reverse()
+    }
   },
   async mounted() {
     this.timerHandle = this.startTimer()
