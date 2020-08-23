@@ -25,6 +25,7 @@
 import { LMap, LTileLayer, LImageOverlay, LControlAttribution, LControlScale, LMarker } from 'vue2-leaflet';
 import TimeSlider from './TimeSlider'
 import LocationButton from './LocationButton'
+import { eventBus } from './EventBus'
 
 const FRAMES_DISPLAYED = 7
 const DEFAULT_ZOOM = 9
@@ -58,13 +59,20 @@ export default {
   },
   methods: {
     async initRadarData() {
-      this.radarEntries = await this.$axios.get('/sri').then(result => result.data).then(data => data.slice(-FRAMES_DISPLAYED))
-      this.radarEntries.map(entry => new Image().src = this.getRadarURL(entry))
-      this.radarHours = this.radarEntries.map(entry => entry.date)
+      try {
+        this.radarEntries = await this.$axios.get('/sri').then(result => result.data).then(data => data.slice(-FRAMES_DISPLAYED))
+        this.radarEntries.map(entry => new Image().src = this.getRadarURL(entry))
+        this.radarHours = this.radarEntries.map(entry => entry.date)
+      } catch (error) {
+        console.log('Error loading radar data', error)
+        eventBus.$emit('error', 'Nie udało się skontaktować z serwerem map radarowych. Spróbuj później.')
+      }
     },
     updateRadarImage() {
       const radarEntry = this.radarEntries[this.radarFrame]
-      this.radarURL = this.getRadarURL(radarEntry)
+      if (radarEntry) {
+        this.radarURL = this.getRadarURL(radarEntry)
+      }
     },
     getRadarURL(radarEntry) {
       return radarEntry.url.replace(/^http:/, 'https:')

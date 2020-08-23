@@ -3,30 +3,18 @@
      <v-btn fab color="#64b5f6" @click="locate">
       <v-icon size="x-large">mdi-crosshairs-gps</v-icon>
     </v-btn>
-    <v-snackbar v-model="showError" :top="true" :vertical="true" color="error">
-      {{ locationError }}
-      <template v-slot:action="{ attrs }"> 
-        <v-btn dark text v-bind="attrs" @click="showError = false">Zamknij</v-btn>
-      </template>
-    </v-snackbar>
   </div>
 </template>
 
 <script>
-import { VBtn, VIcon, VSnackbar } from 'vuetify/lib'
+import { VBtn, VIcon } from 'vuetify/lib'
+import { eventBus } from './EventBus'
 
 export default {
   name: "LocationButton",
   components: {
     VBtn,
     VIcon,
-    VSnackbar
-  },
-  data() {
-    return {
-      locationError: null,
-      showError: false,
-    }
   },
   methods: {
     locate() {
@@ -37,20 +25,22 @@ export default {
     },
     onLocationError(error) {
       console.log("Error locating", error)
+
+      let locationError
       switch (error.code) {
         case 1: 
-          this.locationError = "Brak pozwolenia na lokalizację. Zmień uprawnienia."
+          locationError = "Brak pozwolenia na lokalizację. Zmień uprawnienia."
           break
         case 2: 
-          this.locationError = "Lokalizacja niedostępna"
+          locationError = "Lokalizacja niedostępna"
           break
         case 3: 
-          this.locationError = "Lokalizacja niedostępna"
+          locationError = "Lokalizacja niedostępna"
           break
         default:
-          this.locationError = "Błąd lokalizacji"
+          locationError = "Błąd lokalizacji"
       }
-      this.showError = true
+      eventBus.$emit('error', locationError)
     },
   },
   mounted() {

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <v-app>
+      <error-notification></error-notification>
       <map-view class="app__map-view"/>
     </v-app>
   </div>
@@ -8,13 +9,15 @@
 
 <script>
 import MapView from './components/MapView.vue'
+import ErrorNotification from './components/ErrorNotification'
 import { VApp } from "vuetify/lib"
 
 export default {
   name: 'App',
   components: {
     MapView,
-    VApp
+    VApp,
+    ErrorNotification,
   }
 }
 </script>
