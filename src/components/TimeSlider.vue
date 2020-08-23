@@ -1,7 +1,7 @@
 <template>
     <div class="map-view__slider-box">
       <v-slider class="map-view__slider" :vertical="true" :tick-labels="hours" :max="maxIndex" :disabled="!valid"
-        v-model="index" @mousedown="onMouseDown()" @mouseup="onMouseUp()"
+        v-model="index" @start="onMouseDown()" @mouseup="onMouseUp()"
         color="#64b5f6" track-color="#b6b6b7" tick-size="0" thumb-color="#9be7ff"></v-slider>
     </div>
 </template>
