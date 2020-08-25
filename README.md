@@ -2,6 +2,8 @@
 
 Displays current precipitation map in Poland based on radar data.
 
+![Screenshot](https://github.com/paweusz/will-it-rain/blob/master/doc/chmurki-screen.jpg)
+
 ## Project setup
 ```
 npm install
