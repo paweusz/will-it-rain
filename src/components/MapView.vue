@@ -107,13 +107,21 @@ export default {
     startTimer() {
       return setInterval(this.initRadarData, UPDATE_FREQUENCY * 1000);
     },
+    onVisibilityChange() {
+      const visible = !document.hidden
+      if (visible) {
+        this.initRadarData()
+      }
+    }
   },
   async mounted() {
     await this.initRadarData()
     this.updateRadarImage()
     this.timerHandle = this.startTimer()
+    document.addEventListener("visibilitychange", this.onVisibilityChange, false);
   },
   beforeDestroy() {
+    document.removeEventListener("visibilitychange", this.onVisibilityChange)
     clearInterval(this.timerHandle)
   }
 };
