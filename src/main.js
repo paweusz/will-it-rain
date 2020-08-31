@@ -6,6 +6,7 @@ import 'leaflet'
 import 'leaflet-defaulticon-compatibility'
 import axios from "axios"
 import vuetify from './plugins/vuetify'
+import './registerServiceWorker'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios.create({
