@@ -1,5 +1,8 @@
 <template>
   <div class="map-view">
+    <v-overlay :value="!isOverlayLoaded" opacity="0.4" :z-index="500">
+      <v-progress-circular :width="15" color="#9be7ff" size='100' :indeterminate='true'></v-progress-circular>
+    </v-overlay>
     <l-map
       :zoom="zoom"
       :center="center"
@@ -9,7 +12,7 @@
       @update:center="onCenterUpdated"
       @update:zoom="onZoomUpdated">
       <l-tile-layer :url="mapURL"></l-tile-layer>
-      <l-image-overlay v-if="radarURL" :url="radarURL" :bounds="radarBounds" :opacity="0.5"></l-image-overlay>
+      <l-image-overlay @ready="hideOverlay" v-if="radarURL" :url="radarURL" :bounds="radarBounds" :opacity="0.5"></l-image-overlay>
       <l-control-attribution position="bottomleft"></l-control-attribution>
       <l-control-scale position="topright" :imperial="false" :metric="true"></l-control-scale>
       <l-marker :lat-lng="markerLatLng"></l-marker>
@@ -55,6 +58,7 @@ export default {
       radarFrame: 0,
       radarHours: [],
       markerLatLng: { lat: 52.2297, lon: 21.0122 },
+      isOverlayLoaded: false
     }    
   },
   methods: {
@@ -112,6 +116,9 @@ export default {
       if (visible) {
         this.initRadarData()
       }
+    },
+    hideOverlay() {
+        this.isOverlayLoaded = true
     }
   },
   async mounted() {
