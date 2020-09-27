@@ -1,6 +1,16 @@
 module.exports = {
   devServer: {
-    proxy: 'http://localhost:3000'
+    // proxy: 'http://localhost:3000'
+    proxy: {
+      "^/api/sri": {
+        target: 'https://chmurki-api.herokuapp.com',
+        logLevel: 'debug'
+      },
+      "^/maps": {
+        target: "http://a.tile.stamen.com",
+        pathRewrite: {'^/maps' : '/toner'}
+      }
+    }
   },
   "transpileDependencies": [
     "vuetify"
