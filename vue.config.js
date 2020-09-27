@@ -1,6 +1,5 @@
 module.exports = {
   devServer: {
-    // proxy: 'http://localhost:3000'
     proxy: {
       "^/api/sri": {
         target: 'https://chmurki-api.herokuapp.com',
