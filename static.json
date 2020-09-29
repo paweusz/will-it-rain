@@ -8,6 +8,9 @@
   "proxies": {
     "/api/": {
       "origin": "https://chmurki-api.herokuapp.com/api/"
+    },
+    "/maps/": {
+        "origin": "http://a.tile.stamen.com/toner/"
     }
   }
 }
