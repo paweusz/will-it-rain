@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      mapURL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      mapURL: '/maps/{z}/{x}/{y}.png',
       radarURL: null,
       zoom: DEFAULT_ZOOM,
       center: [52.2297, 21.0122],
